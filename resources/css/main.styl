@@ -1,0 +1,106 @@
+flex-version = flex
+support-for-ie = false
+vendor-prefixes = official
+
+// @import '../../../node_modules/@awema-pl/utilities/dist/css/main.css'
+
+@import './fields/*.styl'
+
+@import './ui-calendar.styl'
+@import './time-range.styl'
+
+
+.tooltip.vue-tooltip-theme
+    border-radius 2px
+    &:before
+        order-top-color: var(--tc_btn_bg, green)
+    .tooltip-inner
+        background: var(--tc_btn_bg, green);
+        color: var(--tc_btn_text, white);
+        padding: 8px 15px
+        border-radius 2px
+    &.is-info 
+        &:before
+            border-top-color: var(--tc_link_dark, blue)
+        .tooltip-inner
+            background: var(--tc_link_dark, blue)
+
+
+.fb-keycode
+    &__wrap
+        display flex
+        margin-left -5px
+        margin-right -5px
+    &__field-wrap
+        padding-left 5px
+        padding-right 5px
+    &__field
+        width 100%
+
+.fb-input, .fb-textarea
+    &__label
+        display block
+    &__field, &__textarea
+        border 1px solid
+        width 100%
+
+.fb-multiblock
+    margin-bottom: 1em
+    padding: .5em
+    border: 1px solid currentColor
+
+    > .grid__wrap:not(:last-child)
+        margin-bottom: .5em
+        border-bottom: 1px solid currentColor
+
+    &_has-close
+        max-width: calc(100% - 40px)
+        width 100%
+        position relative
+    &__clear
+        position absolute
+        right -40px
+        top 19px
+        display block
+        width 34px
+        padding 0
+        border 1px solid
+        min-height 20px
+
+.fb-switcher
+    &__field-wrap
+        width: 3em
+        float: left
+        margin-right: 1em
+
+        input
+            max-width: 100%
+
+
+// .v-popover.display-block>span
+//     display block !important
+
+// .tooltip
+
+//   &.popover
+//     $color = #f92929
+
+//     .popover-inner
+//         background: $color
+//         color: white
+//         font-size: .7em
+//         text-transform: uppercase
+//         padding: .5em
+//         border-radius: 5px
+//         box-shadow: 0 5px 30px rgba(black, .1)
+
+//     .popover-arrow
+//         border-color: $color
+//         z-index: 1
+
+// .icon-cross
+//     font-style normal
+
+//     &:before
+//         content "x"
+

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Date range test</title>
+    <script>
+        const AWEMA_CONFIG = {
+            dev: true,
+            key: '5cd207e2c94eb723c3307764a5693def'
+        }
+    </script>
+    <script src="/js/main.js"></script>
+    <!-- <link rel="stylesheet" href="https://cdn.awema.pl/5cd207e2c94eb723c3307764a5693def/awema-pl/indigo-layout/v1.x.x/css/main.css"> -->
+    <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="https://cdn.awema.pl/5cd207e2c94eb723c3307764a5693def/awema-pl/context-menu/v1.x.x/css/main.css">
+    <script src="https://cdn.awema.pl/5cd207e2c94eb723c3307764a5693def/awema-pl/context-menu/v1.x.x/js/main.js"></script>
+    <script src="https://cdn.awema.pl/5cd207e2c94eb723c3307764a5693def/awema-pl/base-js/v1.x.x/js/main.js"></script>
+</head>
+<body>
+    <div class="mainwrapper">
+        <content-wrapper style="display: block; max-width: 600px; margin: auto">
+            <form-builder url="//httpbin.org/post" :default="{period_start: '02/16/2019', period_end: '02/20/2019'}" disabled-dialog>
+
+                <h2>Date picker</h2>
+
+                <fb-date-range name="period"></fb-date-range>
+                <fb-date-range name="test-inital" value-start="02/17/2019" value-end="02/22/2019"></fb-date-range>
+                <fb-date label="Choose date and time" name="date" min="2019-02" max="2021-05"></fb-date>
+            </form-builder>
+        </content-wrapper>
+    </div>
+</body>
+</html>

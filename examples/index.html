@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>AwemaCode Forms package test</title>
+    <link rel="stylesheet" href="https://cdn.awema.pl/5cd207e2c94eb723c3307764a5693def/awema-pl/indigo-layout/v1.x.x/css/main.css">
+    <script>
+      AWEMA_CONFIG = {
+        dev: true,
+        key: '5cd207e2c94eb723c3307764a5693def',
+        reCaptchaSiteKey: '6Lf6bm8UAAAAAEzGZHWPwnlBYoLIcndT-ITBo9fS',
+        companySlug: {
+            domain: 'domain.test'
+        }
+      }
+    </script>
+    <script src="/js/main.js"></script>
+    <!-- <link rel="stylesheet" href="/css/main.css"> -->
+    <script src="https://cdn.awema.pl/5cd207e2c94eb723c3307764a5693def/awema-pl/base-js/v1.x.x/js/main.js"></script>
+</head>
+
+<body>
+    <style>
+      .demo-title {
+        margin-top: 25px;
+        margin-bottom: 10px;
+        font-size: 25px;
+      }
+
+      .input__label {
+        margin-bottom: 5px;
+      }
+    </style>
+
+    <content-wrapper class="mainwrapper">
+      <div style="max-width: 500px">
+        <form-builder url="//httpbin.org/post" disabled-dialog>
+
+
+          <div class="demo-title">Switcher</div>
+
+          <fb-switcher label="Switcher" name="switcher2"></fb-switcher>
+
+          <div class="demo-title">Input group</div>
+
+          <fb-input name="input" label="label"></fb-input>
+          <fb-input name="input" type="password" label="password"></fb-input>
+          <fb-input name="input" label="label"></fb-input>
+          <fb-input name="input" label="label"></fb-input>
+
+
+          <div class="demo-title">Input example</div>
+          <fb-input name="input" label="label"></fb-input>
+
+          <div class="demo-title">Masked input example: 3 letters - 3 digits</div>
+          <fb-input name="minput" label="Masked input" mask="AAA-###"></fb-input>
+
+          <div class="demo-title">Multi-block example</div>
+          <fb-multi-block name="multi">
+            <template slot-scope="mb">
+                <fb-input name="input" label="multi-block" :id="mb.id"></fb-input>
+            </template>
+          </fb-multi-block>
+
+          <div  class="demo-title">Checkbox example</div>
+          <fb-checkbox name="check" label="checkbox"></fb-checkbox>
+
+          <div  class="demo-title">Switcher example</div>
+          <fb-checkbox name="check" label="checkbox" theme="s2"></fb-checkbox>
+
+          <div  class="demo-title">Radio-group example</div>
+          <fb-radio-group name="radio" label="radio" :items="[{name:'one', value: 1}, {name:'two', value: 2}, {name:'three', value: 3}]"></fb-radio-group>
+
+          <div  class="demo-title">Select example</div>
+          <fb-select name="select" label="select" :select-options="[{name:'one', value: 1}, {name:'two', value: 2}]"></fb-select>
+
+          <div  class="demo-title">Textarea example</div>
+          <fb-textarea name="textarea" label="textarea"></fb-textarea>
+
+          <div  class="demo-title">Code example</div>
+
+          <fb-code name="code"></fb-code>
+
+          <div class="grid__title">Company slug example</div>
+          <fb-company-slug name="slug" input="company"></fb-company-slug>
+
+          <div class="grid__title">Auto captcha</div>
+          <fb-auto-captcha show></fb-auto-captcha>
+
+          <div class="grid__title">Slider</div>
+          <fb-slider name="range" label="Range"></fb-slider>
+
+          <div class="grid__title">Telephone</div>
+          <fb-phone name="phone" label="Telephone"></fb-phone>
+        </form-builder>
+      </div>
+    </content-wrapper>
+</body>
+
+</html>

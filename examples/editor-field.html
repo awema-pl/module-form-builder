@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>AwemaCode Forms editor test</title>
+    <script>
+        AWEMA_CONFIG = {
+            key: '5cd207e2c94eb723c3307764a5693def',
+            // formBuilder: {
+            //     fbEditor: {
+            //         bla: 'test'
+            //     }
+            // }
+        }
+    </script>
+    <script src="/js/main.js"></script>
+    <link rel="stylesheet" href="/css/main.css">
+    <script src="https://cdn.awema.pl/5cd207e2c94eb723c3307764a5693def/awema-pl/js-core/v0.x.x/js/main.js"></script>
+</head>
+
+<body>
+    <div id="awema-app">
+        <form-builder url="http://httpbin.org/post" disabled-dialog :default="{editor:'<h1>Hello !</h1> <p>This is saved data</p>'}">
+            <fb-editor name="editor"></fb-editor>
+        </form-builder>
+    </div>
+</body>
+
+</html>

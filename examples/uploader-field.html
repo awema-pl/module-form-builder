@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="bla-bla-bla">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>AwemaCode Forms package test</title>
+    <style>
+      .demo-title {
+        margin-top: 25px;
+        margin-bottom: 10px;
+        font-size: 25px;
+      }
+    </style>
+    <script>
+      AWEMA_CONFIG = {
+        key: '5cd207e2c94eb723c3307764a5693def',
+        dev: true
+      }
+    </script>
+    <script src="/js/main.js"></script>
+    <link rel="stylesheet" href="/css/main.css">
+    <script src="https://cdn.awema.pl/5cd207e2c94eb723c3307764a5693def/awema-pl/base-js/v1.x.x/js/main.js"></script>
+</head>
+
+<body>
+    <content-wrapper id="awema-app">
+      <div style="max-width: 500px">
+        <form-builder url="http://httpbin.org/post" name="myForm" disabled-dialog>
+          <div class="demo-title">File uploader</div>
+          <fb-uploader name="files" url="http://httpbin.org/post" format="txt" size="15" single></fb-uploader>
+        </form-builder>
+      </div>
+
+      <pre>
+        {{ $store.getters['forms/fieldValue']('myForm', 'files') }}
+        {{ $get($store.state, 'forms.myForm.fields.files[0]', 'No file loaded') }}
+      </pre>
+    </content-wrapper>
+</body>
+
+</html>
