@@ -137,7 +137,7 @@
 
 
 <script>
-import uiCalendar from '@awema-pl/utilities/resources/vue/components/calendar.vue'
+import uiCalendar from 'awema-pl-front-module-utilities/resources/vue/components/calendar.vue'
 import baseMixin from '../js/mixins/fb-base.js'
 import errorMixin from '../js/mixins/fb-error.js'
 

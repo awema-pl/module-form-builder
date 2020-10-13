@@ -107,7 +107,12 @@ export default {
         debounce: {
             type: [String, Number],
             default: 400
-        }
+        },
+
+        edited: {
+            type: Boolean,
+            default: false
+        },
     },
 
 
@@ -138,7 +143,7 @@ export default {
         },
 
         isEdited() {
-            return this.form && this.form.isEdited
+            return this.edited || (this.form && this.form.isEdited)
         },
 
         fields() {

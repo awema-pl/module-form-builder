@@ -1,0 +1,111 @@
+Arguments: 
+  D:\Programy\nodejs\node.exe C:\Program Files (x86)\Yarn\bin\yarn.js update
+
+PATH: 
+  C:\Users\Admin\Desktop\Awema\Laravel\Instance\node_modules\.bin;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;D:\Programy\Gradle4\bin;D:\Programy\Git\cmd;D:\Programy\Laragon\bin\php\php-7.4.9-Win32-vc15-x64;C:\ProgramData\ComposerSetup\bin;D:\Programy\nodejs\;C:\Program Files\Symfony;C:\WINDOWS\System32\OpenSSH;C:\WINDOWS\System32\OpenSSH\;C:\Program Files (x86)\Yarn\bin\;C:\Users\Admin\AppData\Local\Yarn\config\global\node_modules\.bin;C:\Users\Admin\AppData\Roaming\Composer\vendor\bin;C:\Users\Admin\AppData\Roaming\npm;D:\Programy\Laragon\bin;D:\Programy\Laragon\bin\apache\httpd-2.4.35-win64-VC15\bin;D:\Programy\Laragon\bin\composer;D:\Programy\Laragon\bin\git\bin;D:\Programy\Laragon\bin\git\cmd;D:\Programy\Laragon\bin\git\mingw64\bin;D:\Programy\Laragon\bin\git\usr\bin;D:\Programy\Laragon\bin\laragon\utils;D:\Programy\Laragon\bin\mysql\mysql-5.7.24-winx64\bin;D:\Programy\Laragon\bin\nginx\nginx-1.14.0;D:\Programy\Laragon\bin\ngrok;D:\Programy\Laragon\bin\nodejs\node-v11;D:\Programy\Laragon\bin\notepad++;D:\Programy\Laragon\bin\php\php-7.4.9-Win32-vc15-x64;D:\Programy\Laragon\bin\putty;D:\Programy\Laragon\bin\redis\redis-x64-3.2.100;D:\Programy\Laragon\bin\telnet;D:\Programy\Laragon\usr\bin;C:\Users\Admin\AppData\Local\Microsoft\WindowsApps;C:\Users\Admin\AppData\Local\Yarn\bin
+
+Yarn version: 
+  1.22.4
+
+Node version: 
+  10.16.2
+
+Platform: 
+  win32 x64
+
+Trace: 
+  TypeError [ERR_INVALID_ARG_TYPE]: The "path" argument must be of type string. Received type object
+      at validateString (internal/validators.js:125:11)
+      at Object.isAbsolute (path.js:399:5)
+      at module.exports.exports.default (C:\Program Files (x86)\Yarn\lib\cli.js:96945:16)
+      at C:\Program Files (x86)\Yarn\lib\cli.js:51143:63
+      at Generator.next (<anonymous>)
+      at step (C:\Program Files (x86)\Yarn\lib\cli.js:310:30)
+      at C:\Program Files (x86)\Yarn\lib\cli.js:321:13
+
+npm manifest: 
+  {
+      "name": "form-builder",
+      "version": "1.7.0",
+      "description": "A component that allows creating forms with two-way binding from data object with default HTML fields and custom, like multi-block or AJAX-select.",
+      "main": "dist/js/main.js",
+      "module": "src/js/plugin.js",
+      "files": [
+          "dist/js/main.js",
+          "dist/js/main.legacy.js",
+          "dist/css/main.css"
+      ],
+      "awema-files": [
+          "js/main.js",
+          "js/main.legacy.js",
+          "css/main.css"
+      ],
+      "scripts": {
+          "start": "concurrently --kill-others \"npm run dev-server\" \"npm run watch\"",
+          "dev-server": "node ./dev-server/index.js",
+          "watch": "cross-env NODE_ENV=development BROWSERSLIST_ENV=modern gulp",
+          "watch:legacy": "cross-env NODE_ENV=development BROWSERSLIST_ENV=legacy gulp",
+          "build": "npm run build:modern && npm run build:legacy",
+          "build:modern": "cross-env NODE_ENV=production cross-env BROWSERSLIST_ENV=modern gulp",
+          "build:legacy": "cross-env NODE_ENV=production cross-env BROWSERSLIST_ENV=legacy rollup -c"
+      },
+      "repository": {
+          "type": "git",
+          "url": "git@github.com:awema-pl/module-form-builder.git"
+      },
+      "keywords": [
+          "form",
+          "form builder",
+          "vue",
+          "vuejs",
+          "form-builder"
+      ],
+      "author": "Awema",
+      "license": "MIT",
+      "devDependencies": {
+          "@babel/core": "^7.2.2",
+          "@babel/preset-env": "^7.3.1",
+          "autoprefixer": "^9.4.6",
+          "browser-sync": "^2.26.3",
+          "concurrently": "^4.1.0",
+          "core-js": "2",
+          "cross-env": "^5.2.0",
+          "cssnano": "^4.1.8",
+          "express": "^4.16.4",
+          "gulp": "^4.0.0",
+          "gulp-clean": "^0.4.0",
+          "gulp-noop": "^1.0.0",
+          "gulp-plumber": "^1.2.1",
+          "gulp-postcss": "^8.0.0",
+          "gulp-rollup": "^2.16.2",
+          "gulp-sourcemaps": "^2.6.4",
+          "gulp-stylus": "^2.7.0",
+          "nib": "^1.1.2",
+          "postcss-import": "^12.0.1",
+          "rollup": "^0.68.2",
+          "rollup-plugin-babel": "^4.3.2",
+          "rollup-plugin-commonjs": "^9.2.0",
+          "rollup-plugin-json": "^3.1.0",
+          "rollup-plugin-license": "^0.7.0",
+          "rollup-plugin-node-resolve": "^4.0.0",
+          "rollup-plugin-terser": "^4.0.2",
+          "rollup-plugin-vue": "^4.6.1",
+          "stylus": "^0.54.5",
+          "vue-template-compiler": "^2.6.10"
+      },
+      "dependencies": {
+          "dependencies": {
+              "awema-pl-front-module-utilities": "file:js-modules/awema-pl-front-module-utilities"
+          },
+          "autosize": "^4.0.2",
+          "vue-multiselect": "^2.1.6",
+          "vue-shortkey": "^3.1.7",
+          "vue-the-mask": "^0.11.1"
+      }
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile

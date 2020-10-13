@@ -1,7 +1,7 @@
-import uiCalendar from '@awema-pl/utilities/resources/vue/components/calendar.vue'
-import uiCalendarHeader from '@awema-pl/utilities/resources/vue/components/calendar-header.vue'
-import uiCalendarMonths from '@awema-pl/utilities/resources/vue/components/calendar-months.vue'
-import uiCalendarYears from '@awema-pl/utilities/resources/vue/components/calendar-years.vue'
+import uiCalendar from 'awema-pl-front-module-utilities/resources/vue/components/calendar.vue'
+import uiCalendarHeader from 'awema-pl-front-module-utilities/resources/vue/components/calendar-header.vue'
+import uiCalendarMonths from 'awema-pl-front-module-utilities/resources/vue/components/calendar-months.vue'
+import uiCalendarYears from 'awema-pl-front-module-utilities/resources/vue/components/calendar-years.vue'
 
 export default {
 
