@@ -76,7 +76,12 @@ export default {
             default: ''
         },
 
-        mask: String
+        mask: String,
+
+        fixinfocus: {
+            type: Boolean,
+            default: false
+        }
     },
 
 
@@ -122,6 +127,12 @@ export default {
                     this.autoFilled = false
                     break
             }
+        }
+    },
+
+    mounted() {
+        if (this.fixinfocus){
+            this.inFocus = true;
         }
     }
 }
