@@ -14,7 +14,7 @@
                 :hide-selected="multiple"
                 :placeholder="placeholderText || defaultPlaceholder"
                 :tag-placeholder="$lang.FORMS_SELECT_ADD_TAG"
-                :internal-search="isAjax ? false : true"
+                :internal-search="isInternalSearch ? true : isAjax ? false : true"
                 :loading="isLoading"
                 :value="formId ? convertValue(formValue) : value"
                 :options="usedOptions"
@@ -31,6 +31,7 @@
                 ref="select"
             >
                 <template slot="noOptions">{{ $lang.FORMS_SELECT_EMPTY }}</template>
+                <template slot="noResult">{{ $lang.FORMS_SELECT_NO_RESULT }}</template>
             </multiselect>
         </fb-error-wrap>
     </div>
@@ -96,7 +97,27 @@ export default {
             default: false
         },
 
-        placeholderText: String
+        openFetch: {
+            type: [String, Boolean],
+            default: false
+        },
+
+        internalSearch: {
+            type: [String, Boolean],
+            default: false
+        },
+
+        placeholderText: String,
+
+        autoFetchName: {
+            type: String,
+            default: ''
+        },
+
+        autoFetchValue: {
+            type: [String, Number],
+            default: ''
+        },
     },
 
 
@@ -105,7 +126,7 @@ export default {
             isOpened: false,
             isLoading: false,
             ajaxOptions: [],
-            addedOptions: []
+            addedOptions: [],
         }
     },
 
@@ -130,8 +151,16 @@ export default {
             return typeof this.url !== 'undefined'
         },
 
+        isInternalSearch(){
+           return this.internalSearch.toString() !== 'false'
+        },
+
+        isOpenFetch(){
+          return  this.openFetch.toString() !== 'false';
+        },
+
         defaultPlaceholder() {
-            return this.$lang[this.isAjax ? 'FORMS_SELECT_AJAX_PLACEHOLDER' : 'FORMS_SELECT_PLACEHOLDER']
+            return this.$lang[this.isInternalSearch ? 'FORMS_SELECT_PLACEHOLDER' : this.isAjax ? 'FORMS_SELECT_AJAX_PLACEHOLDER' : 'FORMS_SELECT_PLACEHOLDER']
         },
 
         allOptions() {
@@ -175,6 +204,7 @@ export default {
         },
 
         convertValue(value) {
+
             if ( this.multiple ) {
                 return Array.isArray(value) ?
                     this.usedOptions.filter( item => {
@@ -184,6 +214,7 @@ export default {
                         return value === item[this.optionsValue];
                     })
             } else {
+
                 return this.usedOptions.find( item => {
                     return (Array.isArray(value) ? value[0] : value) === item[this.optionsValue];
                 })
@@ -241,10 +272,21 @@ export default {
                 if ( this.isAjax ) {
 
                     // bind search
-                    this.$refs.select.$on('search-change', this.ajaxSearch)
-                    this.$refs.select.$once('hook:destroyed', () => {
-                        this.$refs.select.$off('search-change', this.ajaxSearch)
-                    })
+                    if (!this.isInternalSearch) {
+                        this.$refs.select.$on('search-change', this.ajaxSearch)
+
+                        this.$refs.select.$once('hook:destroyed', () => {
+                            this.$refs.select.$off('search-change', this.ajaxSearch)
+                        })
+                    }
+
+                    //fetch data with open select
+                    if ( this.isOpenFetch ) {
+                        this.$refs.select.$on('open', ()=>{
+                            this.ajaxOptions = [];
+                            this.ajaxSearch('', true);
+                        })
+                    }
 
                     // fetch data
                     if ( this.autoFetch.toString() !== 'false' ) {
@@ -262,6 +304,9 @@ export default {
             clearTimeout(this.__search)
             this.isLoading = true
             this.__search = setTimeout(() => {
+                if (!search && this.autoFetchName){
+                    search = this.autoFetchName
+                }
                 AWEMA.ajax({}, this.url.replace('%s', search), 'get')
                     .then( res => {
                         let data = []
@@ -271,11 +316,17 @@ export default {
                             } else if ( res.data && Array.isArray(res.data.data) ) {
                                 data = res.data.data
                             }
+                            this.autoFetchSelected();
                         }
                         this.ajaxOptions = data
                         this.isLoading = false
                     })
             }, Number(this.debounce) );
+        },
+
+        autoFetchSelected(){
+            let selected = {[this.optionName]:this.autoFetchName, [this.optionsValue]: this.autoFetchValue}
+            this.formId ? this.formValueHandler(selected) : this.vModelHandler(selected)
         }
     },
 

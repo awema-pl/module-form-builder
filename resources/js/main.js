@@ -4,7 +4,7 @@ import lang from './modules/lang'
 import formsModule from './store/forms'
 import VueTheMask from 'vue-the-mask'
 import VueShortkey from 'vue-shortkey'
-
+import { wrapUtils } from './utils'
 const awemaPlugin = {
 
     name, version,
@@ -13,8 +13,13 @@ const awemaPlugin = {
         Vue.use(VueShortkey)
         Vue.use(VueTheMask)
         Vue.use(plugin)
+        
         AWEMA._store.registerModule('forms', formsModule)
         AWEMA.lang = lang
+
+        wrapUtils(AWEMA, {
+           
+        })
     }
 }
 

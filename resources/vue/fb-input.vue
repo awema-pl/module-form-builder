@@ -6,13 +6,15 @@
         :error="error"
         @clickTooltip="clickTooltip">
 
-        <label class="fb-input__label fb-input__label_field" :for="'#' + inputId">{{ label }}</label>
+        <label class="fb-input__label fb-input__label_field" :for="'#' + inputId"
+               :class="[{'fb-input__label_sm': isSizeSm},]"
+        >{{ label }}</label>
 
         <input v-if="mask"
             v-mask="mask"
             v-bind="$attrs"
             :id="inputId"
-            :class="['fb-input__field', {'is-focusable': isFocusable}, {'in-focus': inFocus }, {'fb-input__field_password': $attrs.type === 'password'}, {'has-label': label}]"
+            :class="['fb-input__field', {'is-focusable': isFocusable}, {'fb-input__field_sm': isSizeSm}, {'in-focus': inFocus }, {'fb-input__field_password': $attrs.type === 'password'}, {'has-label': label}]"
             :data-awema="$options.name + '.' + name"
             :type="inputType"
             :disabled="isDisabled"
@@ -27,7 +29,7 @@
         <input v-else
             v-bind="$attrs"
             :id="inputId"
-            :class="['fb-input__field', {'is-focusable': isFocusable}, {'in-focus': inFocus }, {'fb-input__field_password': $attrs.type === 'password'}, {'has-label': label}]"
+            :class="['fb-input__field', {'is-focusable': isFocusable}, {'fb-input__field_sm': isSizeSm}, {'in-focus': inFocus }, {'fb-input__field_password': $attrs.type === 'password'}, {'has-label': label}]"
             :data-awema="$options.name + '.' + name"
             :type="inputType"
             :disabled="isDisabled"
@@ -68,7 +70,6 @@ export default {
 
     mixins: [ textFieldMixin ],
 
-
     props: {
 
         label: {
@@ -78,20 +79,24 @@ export default {
 
         mask: String,
 
-        fixinfocus: {
+        fixfocus: {
             type: Boolean,
             default: false
-        }
-    },
+        },
 
+        sizeSm: {
+            type: [Boolean, String],
+            default: undefined
+        },
+    },
 
     data() {
         return {
             inputType: this.$attrs.type || 'text',
-            autoFilled: false
+            autoFilled: false,
+            inFixFocus: this.fixfocus,
         }
     },
-
 
     computed: {
 
@@ -103,6 +108,10 @@ export default {
             return Object.assign({}, this.$listeners, {
                 input: this.formId ? this.formValueHandler : this.vModelHandler
             })
+        },
+
+        isSizeSm(){
+            return this.sizeSm && this.sizeSm !== 'false';
         }
     },
 
@@ -127,11 +136,12 @@ export default {
                     this.autoFilled = false
                     break
             }
-        }
+        },
+
     },
 
     mounted() {
-        if (this.fixinfocus){
+        if (this.inFixFocus){
             this.inFocus = true;
         }
     }

@@ -13,7 +13,7 @@
             <!-- :class="modal ? 'line-btns' : null">
             <div :class="modal ? 'line-btns__wrap' : 'line-btns'"> -->
 
-                <button
+                <button v-if="!hideSendButton"
                     class="form-builder__send btn has-wave"
                     :class="{ 'loading-inline': isLoading }"
                     :disabled="!isEdited || isLoading"
@@ -27,7 +27,7 @@
                     <span class="wave"></span>
                 </button>
 
-                <button v-if="modal || $listeners.cancel"
+                <button v-if="(modal || $listeners.cancel) && !hideCancelButton"
                     class="form-builder__cancel btn btn_transparent has-wave"
                     type="button"
                     v-shortkey="['esc']"
@@ -95,6 +95,16 @@ export default {
         loadingText: String,
 
         disabledDialog: {
+            type: Boolean,
+            default: false
+        },
+
+        hideSendButton: {
+            type: Boolean,
+            default: false
+        },
+
+        hideCancelButton: {
             type: Boolean,
             default: false
         },
