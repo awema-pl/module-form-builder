@@ -132,7 +132,7 @@
 <br><br>
 
 <h2>Modal form</h2>
-<modal-window name="form" title="lorem" class="modal_formbuilder">
+<content-window name="form" title="lorem" class="modal_formbuilder">
     <form-builder url="/send/1">
        
         <fb-input name="input_modal" label="Input modal"></fb-input>
@@ -149,5 +149,5 @@
         </fb-multi-block>
         <fb-textarea name="textarea_modal" label="Textarea modal"></fb-textarea>
     </form-builder>
-</modal-window>
+</content-window>
 <button @click="AWEMA.emit('modal::form.open')">Open modal form</button>

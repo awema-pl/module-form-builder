@@ -18,11 +18,11 @@
 </head>
 <body>
     <content-wrapper id="awema-app">
-        <modal-window name="form">
+        <content-window name="form">
             <form-builder url="//httpbin.org/post" @sended="AWEMA.notify({status: 'success', message:'Sended!'})" disabled-dialog>
                 <fb-input name="test" label="test"></fb-input>
             </form-builder>
-        </modal-window>
+        </content-window>
         <button class="btn" @click="AWEMA.emit('modal::form:open')">Open modal</button>
     </content-wrapper>
 </body>
