@@ -15,6 +15,7 @@
                 :placeholder="placeholderText || defaultPlaceholder"
                 :tag-placeholder="$lang.FORMS_SELECT_ADD_TAG"
                 :internal-search="isInternalSearch ? true : isAjax ? false : true"
+                :searchable="!isDisabledSearch"
                 :loading="isLoading"
                 :value="formId ? convertValue(formValue) : value"
                 :options="usedOptions"
@@ -107,6 +108,11 @@ export default {
             default: false
         },
 
+        disabledSearch: {
+            type: [String, Boolean],
+            default: false
+        },
+
         placeholderText: String,
 
         autoFetchName: {
@@ -155,12 +161,16 @@ export default {
            return this.internalSearch.toString() !== 'false'
         },
 
+        isDisabledSearch(){
+            return this.disabledSearch.toString() !== 'false'
+        },
+
         isOpenFetch(){
           return  this.openFetch.toString() !== 'false';
         },
 
         defaultPlaceholder() {
-            return this.$lang[this.isInternalSearch ? 'FORMS_SELECT_PLACEHOLDER' : this.isAjax ? 'FORMS_SELECT_AJAX_PLACEHOLDER' : 'FORMS_SELECT_PLACEHOLDER']
+            return this.$lang[this.isInternalSearch ? 'FORMS_SELECT_PLACEHOLDER' : this.isAjax && !this.isLoading ? 'FORMS_SELECT_AJAX_PLACEHOLDER' : 'FORMS_SELECT_PLACEHOLDER']
         },
 
         allOptions() {
@@ -176,6 +186,9 @@ export default {
         },
 
         usedOptions() {
+            if (!this.allOptions){
+                return [];
+            }
             return this.allOptions.filter( (item, i, arr) => {
                 if ( ! item ) return false
                 let index = arr.findIndex( _item => {
@@ -316,23 +329,25 @@ export default {
                             } else if ( res.data && Array.isArray(res.data.data) ) {
                                 data = res.data.data
                             }
-                            this.autoFetchSelected();
                         }
                         this.ajaxOptions = data
+                        if ( res.success === true ) {
+                            this.autoFetchSelected();
+                        }
                         this.isLoading = false
                     })
             }, Number(this.debounce) );
         },
 
         autoFetchSelected(){
-            let selected = {[this.optionName]:this.autoFetchName, [this.optionsValue]: this.autoFetchValue}
+            let selected = {[this.optionsName]:this.autoFetchName, [this.optionsValue]: this.autoFetchValue}
             this.formId ? this.formValueHandler(selected) : this.vModelHandler(selected)
         }
     },
 
 
     created() {
-        if ( this.formId && this.formValue ) {
+        if ( this.formId && this.formValue && !this.autoFetchValue ) {
             // noramlize initial value
             let _values = Array.isArray(this.formValue) ? this.formValue : [this.formValue],
                 _normalized = [],

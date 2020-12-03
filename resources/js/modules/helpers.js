@@ -82,7 +82,10 @@ export function normalizeArrayIndexes(obj, paths) {
     const { get, set } = AWEMA.utils.object
     paths.forEach( path => {
         let _arr = get(obj, path)
-        set(obj, path, _normalizeArrayIndexes(_arr))
+        if (_arr){
+            set(obj, path, _normalizeArrayIndexes(_arr))
+        }
+
     })
     return obj
 }
