@@ -18,7 +18,7 @@
             </button>
         </div>
 
-        <button
+        <button v-if="!isAddDisabled"
             class="fb-multiblock__add"
             type="button"
             @click.prevent="addField"
@@ -42,6 +42,11 @@ export default {
     props: {
 
         label: String,
+
+        addDisabled: {
+            type: [Boolean, String],
+            default: undefined
+        },
     },
 
 
@@ -69,6 +74,10 @@ export default {
 
         fields() {
             return this.$options
+        },
+
+        isAddDisabled(){
+            return this.addDisabled && this.addDisabled !== 'false';
         }
     },
 

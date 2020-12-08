@@ -124,6 +124,11 @@ export default {
             type: [String, Number],
             default: ''
         },
+
+        autoFetchIndex: {
+            type: [Number],
+            default: undefined
+        },
     },
 
 
@@ -332,7 +337,7 @@ export default {
                         }
                         this.ajaxOptions = data
                         if ( res.success === true ) {
-                            this.autoFetchSelected();
+                            this.autoFetchSelected()
                         }
                         this.isLoading = false
                     })
@@ -340,7 +345,12 @@ export default {
         },
 
         autoFetchSelected(){
-            let selected = {[this.optionsName]:this.autoFetchName, [this.optionsValue]: this.autoFetchValue}
+            let selected
+            if (this.autoFetchIndex !== undefined){
+                selected = this.ajaxOptions[this.autoFetchIndex]
+            } else {
+                selected = {[this.optionsName]:this.autoFetchName, [this.optionsValue]: this.autoFetchValue}
+            }
             this.formId ? this.formValueHandler(selected) : this.vModelHandler(selected)
         }
     },
