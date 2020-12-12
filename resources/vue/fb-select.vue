@@ -126,7 +126,7 @@ export default {
         },
 
         autoFetchIndex: {
-            type: [Number],
+            type: [Number,String],
             default: undefined
         },
     },
@@ -222,7 +222,6 @@ export default {
         },
 
         convertValue(value) {
-
             if ( this.multiple ) {
                 return Array.isArray(value) ?
                     this.usedOptions.filter( item => {
@@ -347,7 +346,11 @@ export default {
         autoFetchSelected(){
             let selected
             if (this.autoFetchIndex !== undefined){
-                selected = this.ajaxOptions[this.autoFetchIndex]
+                if (this.autoFetchIndex === 'all'){
+                    selected = this.ajaxOptions
+                } else {
+                    selected = this.ajaxOptions[this.autoFetchIndex]
+                }
             } else {
                 selected = {[this.optionsName]:this.autoFetchName, [this.optionsValue]: this.autoFetchValue}
             }
