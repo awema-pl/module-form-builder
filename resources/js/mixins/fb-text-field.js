@@ -17,7 +17,7 @@ export default {
     computed: {
 
         isActive() {
-            return !!(this.inFocus || (this.value || this.formValue));
+            return !!(this.inFocus || (this.value || this.value === 0 || this.formValue || this.formValue === 0));
         },
     },
 

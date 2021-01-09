@@ -1,14 +1,14 @@
 <template>
     <uploader
         class="fb-uploader fb-element"
-        :class="{'fb-uploader_disabled': isDisabled}"
+        :class="{'fb-uploader_disabled': isDisabled, 'fb-input_error': hasError, 'animated shake': shake}"
         :options="uploaderOptions"
         @file-added="checkFile"
         @file-progress="setProgress"
         @file-success="addFileNameToForm"
         @file-error="handleFileError"
     >
-        <!-- 
+        <!--
             This blocks form when uploader is working (if needed)
             @upload-start="toggleFormBlock(true)"
             @complete="toggleFormBlock(false)"
@@ -16,29 +16,65 @@
         <uploader-unsupport></uploader-unsupport>
 
         <!-- dropzone -->
-        <uploader-drop>
-            <p class="fb-uploader__message">
-                {{ $lang.FORMS_UPLOAD_DROP }}
-                <span class="fb-uploader__fakebtn">{{ $lang.FORMS_UPLOAD_ADD }}</span>
-                <uploader-btn class="fb-uploader__btn" tabindex="1" ref="uploaderBtn"><span>{{ $lang.FORMS_UPLOAD_ADD }}</span></uploader-btn>
-            </p>
-            <p v-if="formatArray || size">
-                <i class="fb-uploader__formats" v-if="formatArray">
-                    {{ $lang.FORMS_UPLOAD_FORMAT }} {{ formatString }}.
-                </i>
-                <i class="fb-uploader__size" v-if="size">
-                    {{ $lang.FORMS_UPLOAD_SIZE }} {{ size }}Mb
-                </i>
-            </p>
-        </uploader-drop><!-- / dropzone -->
-
+        <fb-error-wrap
+            :open="showTooltip"
+            :error="error"
+            @clickTooltip="clickTooltip">
+            <uploader-drop>
+                <p class="fb-uploader__message">
+                    {{ $lang.FORMS_UPLOAD_DROP }}
+                    <span class="fb-uploader__fakebtn">{{ $lang.FORMS_UPLOAD_ADD }}</span>
+                    <uploader-btn class="fb-uploader__btn" tabindex="1" ref="uploaderBtn"><span>{{ $lang.FORMS_UPLOAD_ADD }}</span></uploader-btn>
+                </p>
+                <p v-if="formatArray || size">
+                    <i class="fb-uploader__formats" v-if="formatArray">
+                        {{ $lang.FORMS_UPLOAD_FORMAT }} {{ formatString }}.
+                    </i>
+                    <i class="fb-uploader__size" v-if="size">
+                        {{ $lang.FORMS_UPLOAD_SIZE }} {{ size }}Mb
+                    </i>
+                </p>
+            </uploader-drop><!-- / dropzone -->
+        </fb-error-wrap>
         <!-- files list -->
         <uploader-list>
             <template slot-scope="props">
                 <slot name="list" :file-list="props.fileList" :remove-file="removeFile">
                     <div v-if="props.fileList.length" class="fb-uploader__cwrap">
-                        <table class="fb-uploader__list">
-                            <tbody>
+                        <template v-if="modalFileListFormat">
+                            <template v-for="(file, i) in props.fileList">
+                                <div :key="file.id">
+                                    <strong>{{ i + 1 }}.</strong>
+                                    <span class="ml-8">{{ getName(file.name) }}.{{ getExtension(file.name) }}</span>
+                                    <span class="cl-caption ml-8">({{ file.size | bytesToMb }})</span>
+                                    <span class="ml-8" :class="{'cl-red': file.error}">
+                                        <template v-if="file.isComplete()">
+                                        {{ $lang[file.error ? 'FORMS_UPLOAD_ERROR' : 'FORMS_UPLOAD_DONE'] }}
+                                        </template>
+                                        <template v-else>
+                                            {{ $lang.FORMS_UPLOAD_LOADING }}
+                                        </template>
+                                    </span>
+                                    <button
+                                        type="button"
+                                        class="cl-red tf-size-small ml-10"
+                                        :title="$lang.FORMS_UPLOAD_DELETE"
+                                        :aria-label="$lang.FORMS_UPLOAD_DELETE"
+                                        @click.prevent="removeFile(file, i)" ><i class="icon icon-cross"></i></button>
+
+                                    <div v-if="!file.isComplete()" :key="file.id + 'loader'">
+                                        <progress
+                                            class="fb-uploader__progress"
+                                            max="1"
+                                            :value="filesProgress[file.uniqueIdentifier]">
+                                        </progress>
+                                    </div>
+                                </div>
+                            </template>
+                        </template>
+                        <template v-else>
+                            <table class="fb-uploader__list">
+                                <tbody>
                                 <template v-for="(file, i) in props.fileList">
                                     <tr :key="file.id">
                                         <td class="fb-uploader__list-number">{{ i + 1 }}</td>
@@ -86,8 +122,9 @@
                                         </td>
                                     </tr>
                                 </template>
-                            </tbody>
-                        </table>
+                                </tbody>
+                            </table>
+                        </template>
                     </div>
                 </slot>
             </template>
@@ -123,6 +160,11 @@ export default {
             validator(value) {
                 return +value == value
             }
+        },
+
+        modalFileListFormat: {
+            type: Boolean,
+            default: false
         },
 
         single: {
@@ -170,7 +212,8 @@ export default {
                     _token: token
                 },
                 headers: {
-                    'X-CSRF-TOKEN': token
+                    'X-CSRF-TOKEN': token,
+                    'X-Requested-With': 'XMLHttpRequest',
                 },
                 testChunks: false
             }

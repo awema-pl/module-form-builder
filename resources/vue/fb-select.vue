@@ -231,7 +231,6 @@ export default {
                         return value === item[this.optionsValue];
                     })
             } else {
-
                 return this.usedOptions.find( item => {
                     return (Array.isArray(value) ? value[0] : value) === item[this.optionsValue];
                 })
@@ -267,7 +266,6 @@ export default {
             } else {
                 selected = _opt
             }
-
             if ( this.formId ) {
                 this.formValueHandler(selected)
             } else {
@@ -308,7 +306,7 @@ export default {
                     // fetch data
                     if ( this.autoFetch.toString() !== 'false' ) {
                         let serach = typeof this.autoFetch === 'string' ? this.autoFetch : ''
-                        this.ajaxSearch( serach, true )
+                        this.ajaxSearch( serach, true, true )
                     }
                 }
             } catch(e) {
@@ -316,7 +314,7 @@ export default {
             }
         },
 
-        ajaxSearch(search, force) {
+        ajaxSearch(search, force, autoFetch = false) {
             if ( ! (search || force) ) return
             clearTimeout(this.__search)
             this.isLoading = true
@@ -352,7 +350,11 @@ export default {
                     selected = this.ajaxOptions[this.autoFetchIndex]
                 }
             } else {
-                selected = {[this.optionsName]:this.autoFetchName, [this.optionsValue]: this.autoFetchValue}
+                let autoFetchName = this.autoFetchName
+                if (!autoFetchName && this.ajaxOptions && this.ajaxOptions.length > 0){
+                    autoFetchName = this.ajaxOptions[0].name
+                }
+                selected = {[this.optionsName]:autoFetchName, [this.optionsValue]: this.autoFetchValue}
             }
             this.formId ? this.formValueHandler(selected) : this.vModelHandler(selected)
         }
@@ -365,7 +367,6 @@ export default {
             let _values = Array.isArray(this.formValue) ? this.formValue : [this.formValue],
                 _normalized = [],
                 _added = [];
-
             _values.forEach( (item, i) => {
                 if ( typeof item === 'object' ) {
                     _added.push(Object.assign({}, item))
@@ -381,7 +382,11 @@ export default {
                 }
             });
             this.addedOptions = _added
-            this.formValue = _normalized
+            if (!this.multiple && _normalized && _normalized.length > 0){
+                this.formValue = _normalized[0]
+            } else {
+                this.formValue = _normalized
+            }
         }
     },
 
